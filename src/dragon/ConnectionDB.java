@@ -26,6 +26,7 @@ public class ConnectionDB {
 		 } catch (SQLException ex) {
 		 Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null,
 		ex);
+		 
 		 }
 		 }
 	/**

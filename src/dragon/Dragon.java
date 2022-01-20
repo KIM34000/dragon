@@ -30,6 +30,36 @@ public class Dragon extends ConnectionDB {
 		public void setNom(String nom) {
 			this.nom = nom;
 		}
+		public String getGenre() {
+			return genre;
+		}
+		public void setGenre(String genre) {
+			this.genre = genre;
+		}
+		public int getSize() {
+			return size;
+		}
+		public void setSize(int size) {
+			this.size = size;
+		}
+		public int getScales() {
+			return scales;
+		}
+		public void setScales(int scales) {
+			this.scales = scales;
+		}
+		public boolean getFire() {
+			return fire;
+		}
+		public void setFire(boolean fire) {
+			this.fire = fire;
+		}
+		public String getLove() {
+			return love;
+		}
+		public void setLove(String love) {
+			this.love = love;
+		}
 		public void affiche() {
 	    	 System.out.println("id is " + id + "name is" + nom);
 	    	 }

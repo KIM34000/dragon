@@ -8,9 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.sql.rowset.JoinRowSet;
+
 
 public class QueryMethod extends ConnectionDB {	
-	public static ArrayList<Dragon> readAll(String dragonName) {
+	public static ArrayList<Dragon> read(String dragonName) {
 		//Resultset is the key for save answer from SQL query
         ResultSet rs = null; 
         //create arrayList
@@ -47,19 +49,33 @@ public class QueryMethod extends ConnectionDB {
 		return dragonArray;
 		}
 
-	public static boolean create() {
+	public static boolean create(Dragon dragonObj) {
 
-		 Scanner scanner = new Scanner(System.in);		 		 
-		 
+		 Scanner scanner = new Scanner(System.in);	 		 
+		//if create failed check with boolean
 			boolean flag = false;
+			//saving from dragonObj into string,int,boolean
+			String dragonName = dragonObj.getNom();
+			String dragonGender = dragonObj.getGenre();
+			int dragonSize = dragonObj.getSize();
+			int dragonScales = dragonObj.getScales();
+			Boolean drgonFire = dragonObj.getFire();
+			String dragonLove = dragonObj.getLove();
+			
 		 try {	
-			 System.out.println("Please enter the name of dragon: ");
-				String dragonName = scanner.nextLine();				
-				System.out.println(dragonName);
-			String query = "INSERT INTO dragons (Dragon) VALUES(?)";
+			 //insert each column into dragons table 
+			String query = "INSERT INTO dragons (Dragon,Sexe,Longueur,NombreEcailles,CracheDuFeu,ComportementAmoureux) VALUES(?,?,?,?,?,?)";
+			//creating a preparedstatement obj containing select query
 		 PreparedStatement declaration = accessDataBase.prepareStatement(query);
+		//executing the preparedstatement obj replacing "?" with different variables in the insert query
 		 declaration.setString(1, dragonName);
-		 int executeUpdate = declaration.executeUpdate();		 
+		 declaration.setString(2, dragonGender);		
+		 declaration.setInt(3, dragonSize);
+		 declaration.setInt(4, dragonScales);
+		 declaration.setBoolean(5,drgonFire);
+		 declaration.setString(6, dragonLove);
+		 int executeUpdate = declaration.executeUpdate();	
+		 //if insert is successful set flag to true
 		 flag = (executeUpdate == 1);		 
 		 } catch (SQLException e) {
 		 System.err.println(
@@ -72,6 +88,7 @@ public class QueryMethod extends ConnectionDB {
 	public static boolean deleteByNamePrepared(String dragonName) {
 		Scanner scanner = new Scanner(System.in);	
 		 boolean success = false;
+		
 		 try {
 			 System.out.println("Please enter which dragon want delete the name: ");
 				String deleteDragonName = scanner.nextLine();

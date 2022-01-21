@@ -103,13 +103,106 @@ public class QueryMethodMain {
 			        	System.out.println("dragon not inserted");
 			        }
 					
-		}else if (answer == "3") {
-//			System.out.println("Please provide the name of the dragon you want delete: ");
-//			String dragonName = scanner.nextLine(); //to store the name of the dragon the user is looking for
-//			Dragon dragonResult[] = QueryMethod.readAll(dragonName);	
-//			QueryMethod.deleteByNamePrepared(dragonName);			
-		}else if (answer == "4") {
+		}else if (answer.equals("3")) {
+			System.out.println("Please provide the name of the dragon you want delete: ");
+			String deleteDragonName = scanner.nextLine(); //to store the name of the dragon the user is looking for
+//			ArrayList<Dragon> dragonResult = QueryMethod.read(deleteDragonName);	
+			Boolean dragonDelete = QueryMethod.deleteByNamePrepared(deleteDragonName);
+			if(dragonDelete) {
+	        	System.out.println("dragon successfully deleted");
+	        	//if unsuccessful
+	        }else {
+	        	System.out.println("dragon not deleted");
+	        }
 			
+		}else if (answer.equals("4")) {
+			System.out.println("Please provide the name of the dragon you want to change: ");
+			String dragonName = scanner.nextLine(); //to store the name of the dragon the user is looking for
+//			//array List for storing the result from the readAll method
+			ArrayList<Dragon> dragonResult = new ArrayList<Dragon>();
+			dragonResult = QueryMethod.read(dragonName);
+			int id=0;
+			String oldDragonName="";
+			String oldDragonGender="";
+			int oldDragonSize=0;
+			int oldDragonScales=0;
+			Boolean oldDrgonFire=true;
+			String oldDragonLove="";
+			String nameFromDB="";
+			//checking each reseult with for loop
+			for(int i =0; i < dragonResult.size(); i++) {
+				//saving from dragonObj into string,int,boolean
+				
+				oldDragonName = dragonResult.get(i).getNom();
+				nameFromDB = dragonResult.get(i).getNom();
+				oldDragonGender = dragonResult.get(i).getGenre();
+				oldDragonSize = dragonResult.get(i).getSize();
+				oldDragonScales = dragonResult.get(i).getScales();
+				oldDrgonFire = dragonResult.get(i).getFire();
+				oldDragonLove = dragonResult.get(i).getLove();
+				System.out.println("Name is: " +dragonResult.get(i).getNom());
+				System.out.println("Genre is: "+dragonResult.get(i).getGenre());
+				System.out.println("Size is: "+dragonResult.get(i).getSize());
+				System.out.println("Scales is: "+dragonResult.get(i).getScales());
+				System.out.println("Fire is: "+dragonResult.get(i).getFire());
+				System.out.println("Love is: "+dragonResult.get(i).getLove());
+	        }	
+			System.out.println("Please enter which of dragon to change: ");
+			System.out.println("1=Name / 2=Genre / 3=Size / 4=Scales / 5=Fire / 6=Love");
+			String dragonUpdate = scanner.nextLine();
+			boolean flag = dragonUpdate.matches("[0-9]+");
+			int dragonCase =0;
+			
+			if (flag) {//If the match is successful, the input string is full of numbers
+				dragonCase = Integer.parseInt(dragonUpdate);//change string temp to int and pass it to the age we want
+			} else {//If the match is not successful, it goes to the next loop
+				System.out.println("The values entered do not match");
+				continue;//Jump out of this while loop and execute the next while loop
+			}
+			
+			switch(dragonCase) {
+			case 1:
+				System.out.println("Please enter the new dragon name: ");
+				String newDragonName = scanner.nextLine();
+				oldDragonName = newDragonName;
+				break;
+			case 2:
+				System.out.println("Please enter the new dragon Genre: ");
+				String newDragonGenre = scanner.nextLine();
+				oldDragonGender = newDragonGenre;
+				break;
+			case 3:
+				System.out.println("Please enter the new dragon Size: ");
+				int newDragonSize = scanner.nextInt();
+				oldDragonSize = newDragonSize;
+				break;
+			case 4:
+				System.out.println("Please enter the new dragon Scales: ");
+				int newDragonScales = scanner.nextInt();
+				oldDragonScales = newDragonScales;
+				break;
+			case 5:
+				System.out.println("Please enter the new dragon Scales: ");
+				Boolean newDrgonFire = scanner.nextBoolean();
+				oldDrgonFire = newDrgonFire;
+				break;
+			case 6:
+				System.out.println("Please enter the new dragon name: ");
+				String newDragonLove = scanner.nextLine();
+				oldDragonLove = newDragonLove;
+				break;
+			}
+			Dragon updateObj = new Dragon(id, oldDragonName, oldDragonGender, oldDragonSize, oldDragonScales, oldDrgonFire, oldDragonLove);
+//			//calling the create method giving it the dragonObj
+			//saving the answer into the boolean dragonfill
+			Boolean dragonAnswer = QueryMethod.update(updateObj,nameFromDB);
+			//if success to fill dragon
+	        if(dragonAnswer) {
+	        	System.out.println("dragon successfully updated");
+	        	//if unsuccessful
+	        }else {
+	        	System.out.println("dragon not updated");
+	        }
 		}else { // if the user chose something else, then we ask again
 			System.out.println("Sorry, I don't understand what you want, please try again");
 			continue;

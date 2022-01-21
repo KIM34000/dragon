@@ -50,8 +50,7 @@ public class QueryMethod extends ConnectionDB {
 		}
 
 	public static boolean create(Dragon dragonObj) {
-
-		 Scanner scanner = new Scanner(System.in);	 		 
+			 		 
 		//if create failed check with boolean
 			boolean flag = false;
 			//saving from dragonObj into string,int,boolean
@@ -59,7 +58,7 @@ public class QueryMethod extends ConnectionDB {
 			String dragonGender = dragonObj.getGenre();
 			int dragonSize = dragonObj.getSize();
 			int dragonScales = dragonObj.getScales();
-			Boolean drgonFire = dragonObj.getFire();
+			Boolean dragonFire = dragonObj.getFire();
 			String dragonLove = dragonObj.getLove();
 			
 		 try {	
@@ -72,7 +71,7 @@ public class QueryMethod extends ConnectionDB {
 		 declaration.setString(2, dragonGender);		
 		 declaration.setInt(3, dragonSize);
 		 declaration.setInt(4, dragonScales);
-		 declaration.setBoolean(5,drgonFire);
+		 declaration.setBoolean(5,dragonFire);
 		 declaration.setString(6, dragonLove);
 		 int executeUpdate = declaration.executeUpdate();	
 		 //if insert is successful set flag to true
@@ -85,14 +84,10 @@ public class QueryMethod extends ConnectionDB {
 		 return flag;
 
 		}
-	public static boolean deleteByNamePrepared(String dragonName) {
-		Scanner scanner = new Scanner(System.in);	
-		 boolean success = false;
-		
-		 try {
-			 System.out.println("Please enter which dragon want delete the name: ");
-				String deleteDragonName = scanner.nextLine();
-				System.out.println(deleteDragonName);
+	public static boolean deleteByNamePrepared(String deleteDragonName) {
+			
+		 boolean success = false;		
+		 try {			 
 		 String query = "DELETE FROM dragons WHERE Dragon = ?";
 		 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 		 declaration.setString(1, deleteDragonName);
@@ -104,21 +99,29 @@ public class QueryMethod extends ConnectionDB {
 		 }
 		 return success;
 		}
-	 public static boolean update() {
+	 public static boolean update(Dragon dragonObj,String nameFromDB ) {
 
-		 Scanner scanner = new Scanner(System.in);		 		 
+		//saving from dragonObj into string,int,boolean
+			String dragonName = dragonObj.getNom();
+			String dragonGender = dragonObj.getGenre();
+			int dragonSize = dragonObj.getSize();
+			int dragonScales = dragonObj.getScales();
+			Boolean dragonFire = dragonObj.getFire();
+			String dragonLove = dragonObj.getLove();		 		 
 		 
 			boolean flag = false;
 		 try {	
-			 System.out.println("Please enter the name of dragon to change: ");
-				String updateDragon = scanner.nextLine();
-				System.out.println(updateDragon);
-				System.out.println("Please enter the new dragon name: ");
-				String newDragon = scanner.nextLine();
-			String query = "UPDATE dragons SET Dragon = ? WHERE Dragon = ?";
+			 
+			String query = "UPDATE dragons SET Dragon = ?, Sexe = ?, Longueur = ?, NombreEcailles = ?, CracheDuFeu = ?, ComportementAmoureux = ? WHERE Dragon = ?";
 		 PreparedStatement declaration = accessDataBase.prepareStatement(query);
-		 declaration.setString(1, newDragon);
-		 declaration.setString(2, updateDragon);
+		//executing the preparedstatement obj replacing "?" with different variables in the insert query
+		 declaration.setString(1, dragonName);
+		 declaration.setString(2, dragonGender);		
+		 declaration.setInt(3, dragonSize);
+		 declaration.setInt(4, dragonScales);
+		 declaration.setBoolean(5,dragonFire);
+		 declaration.setString(6, dragonLove);
+		 declaration.setString(7, nameFromDB);
 		 int executeUpdate = declaration.executeUpdate();		 
 		 flag = (executeUpdate == 1);		 
 		 } catch (SQLException e) {

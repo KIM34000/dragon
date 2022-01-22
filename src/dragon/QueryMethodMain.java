@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.PrimitiveIterator.OfDouble;
 
+import javax.lang.model.type.DeclaredType;
+
 public class QueryMethodMain {
 	// This is the main method that runs the scenario to test all the methods found in the QueryMethod class
 	public static void main(String[] args) {
@@ -27,7 +29,7 @@ public class QueryMethodMain {
 					ArrayList<Dragon> dragonResult = new ArrayList<Dragon>();
 					// calling readAll method giving it dragon name as parameter
 					dragonResult = QueryMethod.read(dragonName);
-					//checking each reseult with for loop
+					//checking each result with for loop
 					for(int i =0; i < dragonResult.size(); i++) {
 						System.out.println("Name is: " +dragonResult.get(i).getNom());
 						System.out.println("Genre is: "+dragonResult.get(i).getGenre());
@@ -37,6 +39,7 @@ public class QueryMethodMain {
 						System.out.println("Love is: "+dragonResult.get(i).getLove());
 			        }		            
 				}else if (answer.equals("2")) {
+					//declare variables for use later
 					int size =0;
 					int scales =0;
 					Boolean spitFire = true;
@@ -120,7 +123,9 @@ public class QueryMethodMain {
 			String dragonName = scanner.nextLine(); //to store the name of the dragon the user is looking for
 //			//array List for storing the result from the readAll method
 			ArrayList<Dragon> dragonResult = new ArrayList<Dragon>();
+			//executing read method giving it the name of dragon and storing the answer in the array list dragon result
 			dragonResult = QueryMethod.read(dragonName);
+			//declare variables for use later
 			int id=0;
 			String oldDragonName="";
 			String oldDragonGender="";
@@ -150,16 +155,18 @@ public class QueryMethodMain {
 			System.out.println("Please enter which of dragon to change: ");
 			System.out.println("1=Name / 2=Genre / 3=Size / 4=Scales / 5=Fire / 6=Love");
 			String dragonUpdate = scanner.nextLine();
+			//checking if the use input is int
 			boolean flag = dragonUpdate.matches("[0-9]+");
+			//declare variable for use later
 			int dragonCase =0;
 			
 			if (flag) {//If the match is successful, the input string is full of numbers
-				dragonCase = Integer.parseInt(dragonUpdate);//change string temp to int and pass it to the age we want
+				dragonCase = Integer.parseInt(dragonUpdate);//change string dragonCase to int 
 			} else {//If the match is not successful, it goes to the next loop
 				System.out.println("The values entered do not match");
 				continue;//Jump out of this while loop and execute the next while loop
 			}
-			
+			//switch case based upon user choice
 			switch(dragonCase) {
 			case 1:
 				System.out.println("Please enter the new dragon name: ");
@@ -192,9 +199,10 @@ public class QueryMethodMain {
 				oldDragonLove = newDragonLove;
 				break;
 			}
+			//create dragon obj storing the old information and the one new information from the user
 			Dragon updateObj = new Dragon(id, oldDragonName, oldDragonGender, oldDragonSize, oldDragonScales, oldDrgonFire, oldDragonLove);
-//			//calling the create method giving it the dragonObj
-			//saving the answer into the boolean dragonfill
+//			//calling the create method giving it the dragonObj and the original dragon name
+			//saving the answer into the boolean dragonAnswer
 			Boolean dragonAnswer = QueryMethod.update(updateObj,nameFromDB);
 			//if success to fill dragon
 	        if(dragonAnswer) {
@@ -209,10 +217,7 @@ public class QueryMethodMain {
 			
 		}}while (true);
 		
-//		QueryMethod.readAll();
-//		QueryMethod.create();
-//		QueryMethod.deleteByNamePrepared();
-//		QueryMethod.update();
+//		
 	}
 
 }

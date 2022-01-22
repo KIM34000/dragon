@@ -87,9 +87,12 @@ public class QueryMethod extends ConnectionDB {
 	public static boolean deleteByNamePrepared(String deleteDragonName) {
 			
 		 boolean success = false;		
-		 try {			 
+		 try {	
+		//delete query on the DB in the Dragon table search by name column
 		 String query = "DELETE FROM dragons WHERE Dragon = ?";
+		//creating a preparedstatement obj containing select query
 		 PreparedStatement declaration = accessDataBase.prepareStatement(query);
+		//executing the preparedstatement obj replacing "?" with different variables in the insert query
 		 declaration.setString(1, deleteDragonName);
 		 int executeUpdate = declaration.executeUpdate();
 		 success = (executeUpdate == 1);
@@ -111,8 +114,9 @@ public class QueryMethod extends ConnectionDB {
 		 
 			boolean flag = false;
 		 try {	
-			 
+			//update query to the DB in the Dragon table to update all fields, search by name column
 			String query = "UPDATE dragons SET Dragon = ?, Sexe = ?, Longueur = ?, NombreEcailles = ?, CracheDuFeu = ?, ComportementAmoureux = ? WHERE Dragon = ?";
+			//creating a preparedstatement obj containing select query
 		 PreparedStatement declaration = accessDataBase.prepareStatement(query);
 		//executing the preparedstatement obj replacing "?" with different variables in the insert query
 		 declaration.setString(1, dragonName);
@@ -122,6 +126,7 @@ public class QueryMethod extends ConnectionDB {
 		 declaration.setBoolean(5,dragonFire);
 		 declaration.setString(6, dragonLove);
 		 declaration.setString(7, nameFromDB);
+		//executing the preparedstatement obj replacing "?" with different variables in the insert query
 		 int executeUpdate = declaration.executeUpdate();		 
 		 flag = (executeUpdate == 1);		 
 		 } catch (SQLException e) {
